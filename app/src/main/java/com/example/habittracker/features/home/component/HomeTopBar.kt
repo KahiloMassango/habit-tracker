@@ -41,7 +41,7 @@ fun HomeTopBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun GreetingText(
+fun GreetingText(
     modifier: Modifier = Modifier,
     name: String
 ) {
