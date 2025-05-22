@@ -2,24 +2,26 @@ package com.example.habittracker.features.habitDetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,17 +31,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.habittracker.core.theme.HabitTrackerTheme
 import com.example.habittracker.R
 import com.example.habittracker.core.components.PrimaryButton
+import com.example.habittracker.core.theme.HabitTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HabitDetailScreen(
+fun HabitDetailModal(
     modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onDone: () -> Unit
 ) {
-    Surface(
-        color = Color(0xFFb8ea6c)
+
+    ModalBottomSheet(
+        modifier = modifier.statusBarsPadding(),
+        sheetState = rememberModalBottomSheetState(true),
+        onDismissRequest = onDismissRequest,
+        containerColor = Color(0xFFbBeb6c)
     ) {
         Column(
             modifier = modifier
@@ -52,7 +60,8 @@ fun HabitDetailScreen(
                     Icon(
                         modifier = Modifier
                             .padding(4.dp)
-                            .size(20.dp),
+                            .size(20.dp)
+                            .clickable { onDismissRequest() },
                         imageVector = Icons.Default.Close,
                         contentDescription = null,
                         tint = Color(0xFF0b110c)
@@ -65,7 +74,7 @@ fun HabitDetailScreen(
                         fontWeight = FontWeight.SemiBold
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent )
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
             )
 
             Spacer(Modifier.height(50.dp))
@@ -96,16 +105,17 @@ fun HabitDetailScreen(
             PrimaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Done",
-                onClick = { }
+                onClick = onDone
             )
         }
     }
+
 }
 
 @Composable
-fun HabitNotes(
+private fun HabitNotes(
     modifier: Modifier = Modifier,
-    text: String
+    text: String,
 ) {
     Box(
         modifier = modifier
@@ -125,6 +135,9 @@ fun HabitNotes(
 @Composable
 private fun Preview() {
     HabitTrackerTheme {
-        HabitDetailScreen()
+        HabitDetailModal(
+            onDone = {},
+            onDismissRequest = {}
+        )
     }
 }
