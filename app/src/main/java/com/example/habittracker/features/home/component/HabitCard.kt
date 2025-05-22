@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.habittracker.core.theme.obviouslyFontFamily
 
-val colors = listOf(Color(0xFFf8ce63), Color(0xFFb8eb6a), Color(0xFFa3c7fd), Color(0xFFfc8fc6))
+val colors = listOf(Color(0xff4e55e0), Color(0xFFbBeb6c), Color(0xFFf7cd63), Color(0xFFfc8fc6))
 
 @Composable
 fun HabitCard(
