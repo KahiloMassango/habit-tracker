@@ -55,17 +55,19 @@ fun WelcomeScreen(
                 color = Color.White
             )
 
+            Spacer(Modifier.height(30.dp))
+
             Image(
                 modifier = Modifier
-                    .padding(top = 16.dp)
-                    .size(350.dp),
+                    .size(310.dp),
                 painter = painterResource(R.drawable.welcome_img),
                 contentDescription = null
             )
 
+            Spacer(Modifier.height(30.dp))
+
             PrimaryButton(
                 modifier = Modifier
-                    .padding(top = 16.dp)
                     .fillMaxWidth(),
                 text = "Get started",
                 onClick = onGetStarted
