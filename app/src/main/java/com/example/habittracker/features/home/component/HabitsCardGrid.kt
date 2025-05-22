@@ -1,6 +1,8 @@
 package com.example.habittracker.features.home.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.runtime.Composable
@@ -9,7 +11,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HabitsCardGrid(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCardClick: () -> Unit
 ) {
     LazyHorizontalGrid(
         modifier = modifier,
@@ -18,7 +21,12 @@ fun HabitsCardGrid(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(9) {
-            HabitCard()
+            HabitCard(
+                modifier = Modifier
+                    .width(260.dp)
+                    .fillMaxHeight(),
+                onClick = onCardClick
+            )
         }
     }
 }
