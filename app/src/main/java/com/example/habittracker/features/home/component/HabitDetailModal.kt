@@ -1,4 +1,4 @@
-package com.example.habittracker.features.habitDetail
+package com.example.habittracker.features.home.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
