@@ -1,12 +1,15 @@
 package com.example.habittracker.core.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.DropdownMenu
@@ -31,6 +34,8 @@ fun HtbTextField(
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     Column(
         modifier = modifier,
@@ -47,6 +52,8 @@ fun HtbTextField(
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodySmall,
             shape = MaterialTheme.shapes.large,
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             placeholder = {
                 Text(
                     text = placeholder,
@@ -75,6 +82,7 @@ fun HtbMenu(
     label: String,
     selected: String,
     options: List<String>,
+    onClick: () -> Unit,
     onSelect: (String) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -91,7 +99,9 @@ fun HtbMenu(
             modifier = Modifier
                 .clip(MaterialTheme.shapes.large)
                 .background(Color(0xfff6f8fa))
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { onClick() }
+            ,
         ) {
             Row(
                 modifier = Modifier
