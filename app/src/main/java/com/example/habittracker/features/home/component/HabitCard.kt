@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material3.Card
@@ -22,26 +21,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.habittracker.core.theme.obviouslyFontFamily
 
-val colors = listOf(Color(0xff4e55e0), Color(0xFFbBeb6c), Color(0xFFf7cd63), Color(0xFFfc8fc6))
+val colors = listOf(
+    Color(0xff4e55e0),
+    Color(0xFFbBeb6c),
+    Color(0xFFf7cd63),
+    Color(0xFFfc8fc6)
+)
 
 @Composable
 fun HabitCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     val done = listOf(true, false).random()
-    val backgroudColor = if(done) Color(0xFFf6f8fa) else colors.random()
+    val backgroudColor = if (done) Color(0xFFf6f8fa) else colors.random()
     Card(
+        onClick = onClick,
         modifier = modifier
             .clip(MaterialTheme.shapes.large)
-            .size(250.dp, 125.dp)
             .background(backgroudColor),
         colors = CardDefaults.cardColors(
             containerColor = backgroudColor,
@@ -63,7 +64,7 @@ fun HabitCard(
                 Icon(
                     imageVector = Icons.Default.Book,
                     contentDescription = null,
-                    tint = if(done) Color(0xFFc5c4c7) else Color(0xFF0b110c)
+                    tint = if (done) Color(0xFFc5c4c7) else Color(0xFF0b110c)
                 )
 
                 RadioButton(
@@ -77,9 +78,9 @@ fun HabitCard(
             }
             HabitSummary(
                 modifier = Modifier.padding(16.dp),
-                title = "Daily",
+                title = "Reading",
                 description = "Read a book",
-                color = if(done) Color(0xFFc5c4c7) else Color(0xFF0b110c)
+                color = if (done) Color(0xFFc5c4c7) else Color(0xFF0b110c)
             )
         }
     }
@@ -90,34 +91,31 @@ private fun HabitSummary(
     modifier: Modifier = Modifier,
     title: String,
     color: Color = Color(0xFF0b110c),
-    description: String
+    description: String,
 ) {
-    val annotatedText = buildAnnotatedString {
-        withStyle(
-            style = SpanStyle(
-                fontFamily = obviouslyFontFamily,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        ) {
-            append(title)
-        }
-        append("\n")
-
-        withStyle(
-            style = SpanStyle(
-                fontFamily = obviouslyFontFamily,
-            )
-        ) {
-            append(description)
-        }
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(3.dp)
+    ) {
+        Text(
+            modifier = Modifier,
+            text = title,
+            color = color,
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        Text(
+            modifier = Modifier,
+            text = description,
+            color = color,
+            style = MaterialTheme.typography.bodySmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 
-    Text(
-        modifier = modifier,
-        text = annotatedText,
-        color = color,
-        style = MaterialTheme.typography.bodySmall,
-    )
 }
+
 
