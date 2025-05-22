@@ -27,7 +27,7 @@ fun PrimaryButton(
         )
     ) {
         Text(
-            modifier = Modifier.padding(6.dp),
+            modifier = Modifier.padding(7.dp),
             text = text,
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.Bold
