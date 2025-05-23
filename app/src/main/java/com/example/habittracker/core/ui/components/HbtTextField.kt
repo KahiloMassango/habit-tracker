@@ -1,4 +1,4 @@
-package com.example.habittracker.core.components
+package com.example.habittracker.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

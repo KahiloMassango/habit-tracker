@@ -1,8 +1,7 @@
-package com.example.habittracker.core.theme
+package com.example.habittracker.core.ui.theme
 
 import com.example.habittracker.R
 import androidx.compose.material3.Typography
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily

@@ -43,9 +43,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.habittracker.core.components.HtbMenu
-import com.example.habittracker.core.components.HtbTextField
-import com.example.habittracker.core.theme.HabitTrackerTheme
+import com.example.habittracker.core.ui.components.HtbMenu
+import com.example.habittracker.core.ui.components.HtbTextField
+import com.example.habittracker.core.ui.theme.HabitTrackerTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

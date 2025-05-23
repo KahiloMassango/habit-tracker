@@ -18,7 +18,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
-import com.example.habittracker.core.theme.obviouslyFontFamily
+import com.example.habittracker.core.ui.theme.obviouslyFontFamily
 
 @Composable
 fun HomeTopBar(modifier: Modifier = Modifier) {
