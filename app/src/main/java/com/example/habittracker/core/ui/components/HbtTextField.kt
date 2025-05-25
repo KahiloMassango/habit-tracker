@@ -25,14 +25,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun HtbTextField(
     modifier: Modifier = Modifier,
-    label: String,
+    label: String? = null,
     value: String,
     placeholder: String,
+    shape: Shape = MaterialTheme.shapes.large,
+    maxLines: Int = 1,
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -41,19 +44,22 @@ fun HtbTextField(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color(0xFF0b110c)
-        )
+        if (label != null){
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFF0b110c)
+            )
+        }
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodySmall,
-            shape = MaterialTheme.shapes.large,
+            shape = shape,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
+            maxLines = maxLines,
             placeholder = {
                 Text(
                     text = placeholder,

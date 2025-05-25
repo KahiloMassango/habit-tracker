@@ -1,4 +1,4 @@
-package com.example.habittracker.features.home.component
+package com.example.habittracker.core.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +38,7 @@ fun DaysList(
 
 
 @Composable
-fun DayItem(
+private fun DayItem(
     modifier: Modifier = Modifier,
     day: Day,
     today: Int = LocalDate.now().dayOfMonth

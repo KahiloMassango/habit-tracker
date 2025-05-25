@@ -9,6 +9,8 @@ import com.example.habittracker.features.authentication.WelcomeRoute
 import com.example.habittracker.features.authentication.welcomeScreen
 import com.example.habittracker.features.home.homeScreen
 import com.example.habittracker.features.home.navigateToHome
+import com.example.habittracker.features.new_habit.navigateToNewHabit
+import com.example.habittracker.features.new_habit.newHabitScreen
 
 @Composable
 fun App(
@@ -25,7 +27,13 @@ fun App(
             onGetStarted = { navController.navigateToHome() }
         )
 
-        homeScreen()
+        homeScreen(
+            onAddHabitClick = { navController.navigateToNewHabit() }
+        )
+
+        newHabitScreen(
+            onNavigateUp = { navController.navigateUp() }
+        )
     }
 
 }

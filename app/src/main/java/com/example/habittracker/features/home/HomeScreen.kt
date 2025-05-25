@@ -19,18 +19,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.habittracker.core.ui.theme.HabitTrackerTheme
 import com.example.habittracker.features.home.component.HabitDetailModal
-import com.example.habittracker.features.home.component.AddHabitModal
-import com.example.habittracker.features.home.component.DaysList
+import com.example.habittracker.core.ui.components.DaysList
 import com.example.habittracker.features.home.component.HabitsCardGrid
 import com.example.habittracker.features.home.component.HbtBottomBar
 import com.example.habittracker.features.home.component.HbtHomeTopBar
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onAddHabitClick: () -> Unit,
 ) {
-    var showAddModal by remember { mutableStateOf(false) }
     var showDetailModal by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -38,7 +40,7 @@ fun HomeScreen(
         topBar = { HbtHomeTopBar(username = "Diana", onNotificationClick = {}) },
         bottomBar = {
             HbtBottomBar(
-                onAddHabitClick = { showAddModal = true },
+                onAddHabitClick = onAddHabitClick,
                 onProfileClick = {}
             )
         }
@@ -63,13 +65,6 @@ fun HomeScreen(
             }
         }
 
-        if (showAddModal) {
-            AddHabitModal(
-                onSave = { showAddModal = false },
-                onDismissRequest = { showAddModal = false }
-            )
-        }
-
         if (showDetailModal) {
             HabitDetailModal(
                 onDone = { showDetailModal = false },
@@ -80,12 +75,25 @@ fun HomeScreen(
 }
 
 
+fun getMonthDaysWithWeekdays(year: Int, month: Int): List<String> {
+    val daysInMonth = LocalDate.of(year, month, 1).lengthOfMonth()
+    val locale = Locale.getDefault()
+
+    return (1..daysInMonth).map { day ->
+        val date = LocalDate.of(year, month, day)
+        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.SHORT, locale) // e.g., "Mon"
+        "$day ($dayOfWeek)"
+    }
+}
+
 
 @Preview
 @Composable
 private fun Preview() {
     HabitTrackerTheme {
-        HomeScreen()
+        HomeScreen(
+            onAddHabitClick = {}
+        )
 
     }
 }
