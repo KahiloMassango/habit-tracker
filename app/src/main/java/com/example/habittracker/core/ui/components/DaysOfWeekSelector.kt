@@ -54,9 +54,7 @@ fun DaysOfWeekSelector(
                         day = day,
                         selected = day in selectedDays,
                         enabled = enabled,
-                        onClick = {
-                            if(selectedDays.size  <= 5) onSelect(it)
-                        }
+                        onClick = onSelect
                     )
                 }
             }

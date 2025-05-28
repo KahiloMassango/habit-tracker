@@ -134,7 +134,11 @@ fun NewHabitScreen(
                 selectedDays = selectedDays,
                 enabled = frequency == Frequency.WEEKLY,
                 onSelect = {
-                    if (it in selectedDays) selectedDays.remove(it) else selectedDays.add(it)
+                    when {
+                        it in selectedDays -> selectedDays.remove(it)
+                        selectedDays.size == 6 -> Unit
+                        else -> selectedDays.add(it)
+                    }
                 }
             )
             HabitTimePicker(
