@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,17 +21,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.habittracker.features.home.model.Day
 import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun DaysList(
     modifier: Modifier = Modifier,
-    days: List<Day> = listOf(Day(18, "Mon"), Day(19, "Tue"), Day(20, "Wed"), Day(21, "Thu"), Day(22, "Fri"), Day(23, "Sat"), Day(24, "Sun"))
+    days: List<Day> = getSurroundingDays()
 ) {
+    val scrollState = rememberLazyListState(LocalDate.now().hashCode())
     LazyRow(
         modifier = modifier,
+        state = scrollState,
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        items(days, { it.hashCode() }) { day ->
+        items(days, { it.date.hashCode() }) { day ->
             DayItem(day = day)
         }
     }
@@ -41,45 +46,69 @@ fun DaysList(
 private fun DayItem(
     modifier: Modifier = Modifier,
     day: Day,
-    today: Int = LocalDate.now().dayOfMonth
+    today: LocalDate = LocalDate.now()
 ) {
+    val isFirstDay = day.date.dayOfMonth == 1
     val background = when {
-        day.day < today -> Color(0xFFb6e86c)
-        day.day == today -> Color(0xFF0b110c)
+        day.date.isBefore(today) -> Color(0xFFb6e86c)
+        day.date == today -> Color(0xFF0b110c)
         else -> Color(0xFFf5f7f9)
     }
     val textColor = when {
-        day.day < today -> Color(0xFF0b110c)
-        day.day == today -> Color.White
+        day.date.isBefore(today) -> Color(0xFF0b110c)
+        day.date == today -> Color.White
         else -> Color(0xFF0b110c)
     }
 
-    Box(
-        modifier = modifier
-            .padding(horizontal = 4.dp)
-            .width(55.dp)
-            .height(65.dp)
-            .clip(MaterialTheme.shapes.large)
-            .background(background),
-        contentAlignment = Alignment.Center
-
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.padding(6.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+        Box(
+            modifier = modifier
+                .padding(horizontal = 4.dp)
+                .width(55.dp)
+                .height(65.dp)
+                .clip(MaterialTheme.shapes.large)
+                .background(background),
+            contentAlignment = Alignment.Center
         ) {
+            Column(
+                modifier = Modifier.padding(6.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Text(
+                    text = day.date.dayOfMonth.toString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = textColor
+                )
+                Text(
+                    text = day.dayOfWeek,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = textColor
+                )
+            }
+        }
+        if (isFirstDay) {
             Text(
-                text = day.day.toString(),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-                color = textColor
-            )
-            Text(
-                text = day.dayOfWeek,
-                style = MaterialTheme.typography.bodySmall,
-                color = textColor
+                text = day.date.month.getDisplayName(TextStyle.FULL, Locale.getDefault()), // e.g. "June"
+                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(bottom = 4.dp),
+                color = Color(0xFF0b110c)
             )
         }
+    }
+}
+
+
+fun getSurroundingDays(range: Int = 4): List<Day> {
+    val today = LocalDate.now()
+    val locale = Locale.getDefault()
+
+    return (-range..range).map { offset ->
+        val date = today.plusDays(offset.toLong())
+        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.SHORT, locale) // e.g., "Mon"
+        Day(date, dayOfWeek)
     }
 }

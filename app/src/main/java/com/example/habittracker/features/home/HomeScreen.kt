@@ -17,15 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.habittracker.core.ui.components.DaysList
 import com.example.habittracker.core.ui.theme.HabitTrackerTheme
 import com.example.habittracker.features.home.component.HabitDetailModal
-import com.example.habittracker.core.ui.components.DaysList
 import com.example.habittracker.features.home.component.HabitsCardGrid
 import com.example.habittracker.features.home.component.HbtBottomBar
 import com.example.habittracker.features.home.component.HbtHomeTopBar
-import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,10 +34,9 @@ fun HomeScreen(
 
     Scaffold(
         containerColor = Color.White,
-        topBar = { HbtHomeTopBar(username = "Diana", onNotificationClick = {}) },
+        topBar = { HbtHomeTopBar(username = "Diana", onCreateHabit = onAddHabitClick) },
         bottomBar = {
             HbtBottomBar(
-                onAddHabitClick = onAddHabitClick,
                 onProfileClick = {}
             )
         }
@@ -53,9 +49,7 @@ fun HomeScreen(
             contentColor = Color(0xFF0b110c)
         ) {
             Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
                 DaysList()
                 Spacer(Modifier.height(18.dp))
@@ -71,18 +65,6 @@ fun HomeScreen(
                 onDismissRequest = { showDetailModal = false }
             )
         }
-    }
-}
-
-
-fun getMonthDaysWithWeekdays(year: Int, month: Int): List<String> {
-    val daysInMonth = LocalDate.of(year, month, 1).lengthOfMonth()
-    val locale = Locale.getDefault()
-
-    return (1..daysInMonth).map { day ->
-        val date = LocalDate.of(year, month, day)
-        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.SHORT, locale) // e.g., "Mon"
-        "$day ($dayOfWeek)"
     }
 }
 
