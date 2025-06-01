@@ -13,6 +13,7 @@ roomVersion = "2.7.1"
 composeNavigation = "2.9.0"
 kotlinSerialization = "1.8.1"
 kotlinSerializationPlugin = "2.0.21"
+emoji = "1.5.0"
 
 
 [libraries]
@@ -35,6 +36,7 @@ androidx-material3-icons-extended = { group = "androidx.compose.material", name 
 room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+emoji2 = { group = "androidx.emoji2", name = "emoji2-emojipicker", version.ref = "emoji" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

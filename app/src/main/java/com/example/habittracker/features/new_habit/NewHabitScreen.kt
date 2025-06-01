@@ -1,9 +1,11 @@
 package com.example.habittracker.features.new_habit
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,6 +32,7 @@ import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
@@ -48,6 +51,8 @@ import com.example.habittracker.core.ui.components.HabitTimePicker
 import com.example.habittracker.core.ui.components.HtbTextField
 import com.example.habittracker.core.ui.components.PrimaryButton
 import com.example.habittracker.core.ui.theme.HabitTrackerTheme
+import com.example.habittracker.features.new_habit.components.EmojiPicker
+import com.example.habittracker.features.new_habit.components.IconsBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +65,10 @@ fun NewHabitScreen(
     var frequency by remember { mutableStateOf(Frequency.DAILY) }
     var selectedDays = remember { mutableStateSetOf<DayOfWeek>(DayOfWeek.MON) }
     val notes = remember { mutableStateListOf<String>("") }
+    var selectedIcon by remember { mutableStateOf("😇") }
+    var selectedColor by remember { mutableStateOf(Color(0xff4e55e0)) }
+
+    var showIconPickerModal by remember { mutableStateOf(false) }
 
 
     val focusManager = LocalFocusManager.current
@@ -106,15 +115,31 @@ fun NewHabitScreen(
             verticalArrangement = Arrangement.spacedBy(30.dp)
         ) {
 
-            HtbTextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = "Name",
-                value = name,
-                placeholder = "Type habit name",
-                onValueChange = { name = it },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Next) })
-            )
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
+                IconsBox(
+                    modifier = modifier
+                        //.size(55.dp)
+                        .clickable { showIconPickerModal = true },
+                    icon = selectedIcon,
+                    backgroundColor = selectedColor
+                )
+                HtbTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    label = "Name",
+                    value = name,
+                    placeholder = "Type habit name",
+                    onValueChange = { name = it },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    keyboardActions = KeyboardActions(onNext = {
+                        focusManager.moveFocus(
+                            FocusDirection.Next
+                        )
+                    })
+                )
+            }
 
             HtbTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -158,6 +183,17 @@ fun NewHabitScreen(
                 onClick = {  }
             )
 
+        }
+
+        if(showIconPickerModal) {
+            EmojiPicker(
+                modifier = Modifier,
+                selectedIcon = selectedIcon,
+                selectedColor = selectedColor,
+                onSelectIcon = { selectedIcon = it },
+                onSelectColor = { selectedColor = it },
+                onDismiss = { showIconPickerModal = false }
+            )
         }
     }
 }

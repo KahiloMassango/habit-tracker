@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.androidx.material3.icons.extended)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.emoji2)
+
     //room-database
     implementation(libs.room)
     ksp(libs.room.compiler)
