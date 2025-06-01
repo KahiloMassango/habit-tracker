@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -26,7 +27,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateSetOf
 import androidx.compose.runtime.remember
@@ -46,7 +46,6 @@ import com.example.habittracker.core.model.DayOfWeek
 import com.example.habittracker.core.model.Frequency
 import com.example.habittracker.core.ui.components.DaysOfWeekSelector
 import com.example.habittracker.core.ui.components.FrequencySelector
-import com.example.habittracker.core.ui.components.HabitNotesContainer
 import com.example.habittracker.core.ui.components.HabitTimePicker
 import com.example.habittracker.core.ui.components.HtbTextField
 import com.example.habittracker.core.ui.components.PrimaryButton
@@ -64,7 +63,7 @@ fun NewHabitScreen(
     var description by rememberSaveable { mutableStateOf("") }
     var frequency by remember { mutableStateOf(Frequency.DAILY) }
     var selectedDays = remember { mutableStateSetOf<DayOfWeek>(DayOfWeek.MON) }
-    val notes = remember { mutableStateListOf<String>("") }
+    var note by remember { mutableStateOf("") }
     var selectedIcon by remember { mutableStateOf("😇") }
     var selectedColor by remember { mutableStateOf(Color(0xff4e55e0)) }
 
@@ -108,7 +107,7 @@ fun NewHabitScreen(
         Column(
             modifier = modifier
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .animateContentSize()
                 .verticalScroll(rememberScrollState()),
@@ -120,9 +119,7 @@ fun NewHabitScreen(
                 horizontalArrangement = Arrangement.spacedBy(14.dp)
             ) {
                 IconsBox(
-                    modifier = modifier
-                        //.size(55.dp)
-                        .clickable { showIconPickerModal = true },
+                    modifier = modifier.clickable { showIconPickerModal = true },
                     icon = selectedIcon,
                     backgroundColor = selectedColor
                 )
@@ -169,10 +166,14 @@ fun NewHabitScreen(
             HabitTimePicker(
                 onPicked = { hour -> }
             )
-            HabitNotesContainer(
-                notes = notes,
-                onNotesChange = { index, value -> notes[index] = value },
-                addNote = { notes.add("") }
+            HtbTextField(
+                modifier = Modifier
+                    .height(115.dp),
+                label = "Note (optional)",
+                value = note,
+                placeholder = "Habit note",
+                maxLines = 4,
+                onValueChange = { note = it },
             )
 
             PrimaryButton(

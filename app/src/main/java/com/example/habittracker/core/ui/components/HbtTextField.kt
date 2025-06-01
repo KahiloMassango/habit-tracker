@@ -41,7 +41,6 @@ fun HtbTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 ) {
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         if (label != null){
@@ -52,7 +51,7 @@ fun HtbTextField(
             )
         }
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             textStyle = MaterialTheme.typography.bodySmall,

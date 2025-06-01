@@ -10,5 +10,6 @@ data class HabitEntity(
     val frequency: Frequency,
     val startDate: LocalDate = LocalDate.now(),
     val reminderTime: String? = null,
+    val note: String,
     val isActive: Boolean = true
 )
